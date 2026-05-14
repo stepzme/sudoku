@@ -6,14 +6,14 @@ struct StatsView: View {
     var body: some View {
         List {
             Section("Overall") {
-                StatRow(title: "Completed", value: "\(progressStore.completedLevels.count)/300")
+                StatRow(title: "Completed", value: "\(progressStore.completedLevels.count)/\(LevelCatalog.totalLevels)")
             }
 
             Section("By Difficulty") {
                 ForEach(Difficulty.allCases) { difficulty in
                     StatRow(
                         title: difficulty.title,
-                        value: "\(progressStore.completedCount(for: difficulty))/100"
+                        value: "\(progressStore.completedCount(for: difficulty))/\(LevelCatalog.levelsPerDifficulty)"
                     )
                 }
             }

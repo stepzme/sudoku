@@ -2,14 +2,31 @@ import SwiftUI
 
 struct LevelSelectionView: View {
     @EnvironmentObject private var progressStore: ProgressStore
+    @State private var levels: [SudokuLevel] = []
+    @State private var isLoading = true
     let difficulty: Difficulty
 
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 5)
 
     var body: some View {
+        Group {
+            if isLoading {
+                loadingView
+            } else {
+                levelGrid
+            }
+        }
+        .background(Color(.systemGroupedBackground))
+        .navigationTitle(difficulty.title)
+        .task(id: difficulty) {
+            await loadLevels()
+        }
+    }
+
+    private var levelGrid: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 10) {
-                ForEach(LevelCatalog.shared.levels(for: difficulty)) { level in
+                ForEach(levels) { level in
                     let unlocked = progressStore.isUnlocked(level)
                     NavigationLink {
                         GameView(level: level, snapshot: progressStore.activeGame?.level.id == level.id ? progressStore.activeGame : nil)
@@ -26,8 +43,33 @@ struct LevelSelectionView: View {
             }
             .padding(20)
         }
-        .background(Color(.systemGroupedBackground))
-        .navigationTitle(difficulty.title)
+    }
+
+    private var loadingView: some View {
+        VStack(spacing: 16) {
+            ProgressView()
+                .controlSize(.large)
+                .tint(difficulty.color)
+            Text("Preparing \(difficulty.title) levels")
+                .font(.headline)
+            Text("This only happens the first time you open this difficulty.")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .padding(24)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    @MainActor
+    private func loadLevels() async {
+        isLoading = true
+        let difficulty = difficulty
+        let loadedLevels = await Task.detached(priority: .userInitiated) {
+            LevelCatalog.shared.levels(for: difficulty)
+        }.value
+        levels = loadedLevels
+        isLoading = false
     }
 }
 

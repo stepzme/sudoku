@@ -9,7 +9,7 @@ struct HomeView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Sudoku")
                         .font(.system(size: 48, weight: .bold, design: .rounded))
-                    Text("300 handcrafted-style puzzles across three difficulties.")
+                    Text("60 curated puzzles across three difficulties.")
                         .font(.headline)
                         .foregroundStyle(.secondary)
                 }

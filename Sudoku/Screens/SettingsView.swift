@@ -14,7 +14,7 @@ struct SettingsView: View {
             }
 
             Section("About") {
-                LabeledContent("Levels", value: "300")
+                LabeledContent("Levels", value: "\(LevelCatalog.totalLevels)")
                 LabeledContent("Difficulties", value: "Easy, Medium, Hard")
             }
         }

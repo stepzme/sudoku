@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum Difficulty: String, CaseIterable, Codable, Identifiable {
+enum Difficulty: String, CaseIterable, Codable, Identifiable, Sendable {
     case easy
     case medium
     case hard

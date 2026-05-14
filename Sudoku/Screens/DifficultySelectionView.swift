@@ -50,7 +50,7 @@ private struct DifficultyCard: View {
             HStack {
                 Label("\(completed) completed", systemImage: "checkmark.seal.fill")
                 Spacer()
-                Text("100 levels")
+                Text("\(LevelCatalog.levelsPerDifficulty) levels")
             }
             .font(.subheadline.weight(.semibold))
             .foregroundStyle(.secondary)

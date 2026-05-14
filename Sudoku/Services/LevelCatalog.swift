@@ -1,27 +1,44 @@
 import Foundation
 
-final class LevelCatalog {
+final class LevelCatalog: @unchecked Sendable {
     static let shared = LevelCatalog()
-    static let levelsPerDifficulty = 100
+    static let levelsPerDifficulty = 20
+    static let totalLevels = levelsPerDifficulty * Difficulty.allCases.count
 
-    let levels: [Difficulty: [SudokuLevel]]
+    private var cachedLevels: [Difficulty: [SudokuLevel]] = [:]
+    private let lock = NSLock()
 
-    private init() {
-        var generated: [Difficulty: [SudokuLevel]] = [:]
-        for difficulty in Difficulty.allCases {
-            generated[difficulty] = (1...Self.levelsPerDifficulty).map { number in
-                Self.makeLevel(difficulty: difficulty, number: number)
-            }
-        }
-        levels = generated
-    }
+    private init() {}
 
     func level(difficulty: Difficulty, number: Int) -> SudokuLevel? {
-        levels[difficulty]?.first { $0.number == number }
+        levels(for: difficulty).first { $0.number == number }
     }
 
     func levels(for difficulty: Difficulty) -> [SudokuLevel] {
-        levels[difficulty] ?? []
+        lock.lock()
+        if let cached = cachedLevels[difficulty] {
+            lock.unlock()
+            return cached
+        }
+        lock.unlock()
+
+        let generated = Self.generateLevels(for: difficulty)
+
+        lock.lock()
+        if let cached = cachedLevels[difficulty] {
+            lock.unlock()
+            return cached
+        }
+        cachedLevels[difficulty] = generated
+        lock.unlock()
+
+        return generated
+    }
+
+    private static func generateLevels(for difficulty: Difficulty) -> [SudokuLevel] {
+        (1...levelsPerDifficulty).map { number in
+            makeLevel(difficulty: difficulty, number: number)
+        }
     }
 
     private static func makeLevel(difficulty: Difficulty, number: Int) -> SudokuLevel {

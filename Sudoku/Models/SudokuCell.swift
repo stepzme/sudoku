@@ -1,6 +1,6 @@
 import Foundation
 
-struct SudokuCell: Identifiable, Equatable {
+struct SudokuCell: Identifiable, Equatable, Sendable {
     let row: Int
     let column: Int
     let solution: Int

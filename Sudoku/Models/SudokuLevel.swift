@@ -1,6 +1,6 @@
 import Foundation
 
-struct SudokuLevel: Identifiable, Codable, Equatable {
+struct SudokuLevel: Identifiable, Codable, Equatable, Sendable {
     let difficulty: Difficulty
     let number: Int
     let puzzle: [Int]

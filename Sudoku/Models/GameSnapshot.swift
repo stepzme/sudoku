@@ -1,6 +1,6 @@
 import Foundation
 
-struct GameSnapshot: Codable {
+struct GameSnapshot: Codable, Sendable {
     let level: SudokuLevel
     var values: [Int]
     var notes: [[Int]]
@@ -9,7 +9,7 @@ struct GameSnapshot: Codable {
     var hintsUsed: Int
 }
 
-struct CompletedLevel: Codable, Equatable {
+struct CompletedLevel: Codable, Equatable, Sendable {
     let levelID: String
     let difficulty: Difficulty
     let number: Int
