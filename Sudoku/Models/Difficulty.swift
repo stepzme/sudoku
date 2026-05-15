@@ -9,17 +9,17 @@ enum Difficulty: String, CaseIterable, Codable, Identifiable, Sendable {
 
     var title: String {
         switch self {
-        case .easy: "Easy"
-        case .medium: "Medium"
-        case .hard: "Hard"
+        case .easy: "Легко"
+        case .medium: "Средне"
+        case .hard: "Сложно"
         }
     }
 
     var subtitle: String {
         switch self {
-        case .easy: "Relaxed puzzles with generous clues."
-        case .medium: "Balanced boards for regular play."
-        case .hard: "Demanding puzzles for focused solving."
+        case .easy: "Спокойные головоломки с большим количеством подсказок."
+        case .medium: "Сбалансированные уровни для обычной игры."
+        case .hard: "Требовательные головоломки для вдумчивого решения."
         }
     }
 

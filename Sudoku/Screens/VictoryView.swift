@@ -14,21 +14,21 @@ struct VictoryView: View {
                     .font(.system(size: 72))
                     .foregroundStyle(.yellow)
                 VStack(spacing: 8) {
-                    Text("Puzzle Solved!")
+                    Text("Уровень пройден!")
                         .font(.largeTitle.bold())
-                    Text("\(level.difficulty.title) · Level \(level.number)")
+                    Text("\(level.difficulty.title) · Уровень \(level.number)")
                         .foregroundStyle(.secondary)
                 }
 
                 VStack(spacing: 12) {
-                    ResultRow(title: "Time", value: elapsed, systemImage: "timer")
-                    ResultRow(title: "Mistakes", value: "\(mistakes)", systemImage: "xmark.circle")
-                    ResultRow(title: "Hints", value: "\(hints)", systemImage: "lightbulb")
+                    ResultRow(title: "Время", value: elapsed, systemImage: "timer")
+                    ResultRow(title: "Ошибки", value: "\(mistakes)", systemImage: "xmark.circle")
+                    ResultRow(title: "Подсказки", value: "\(hints)", systemImage: "lightbulb")
                 }
                 .padding(20)
                 .background(.background, in: RoundedRectangle(cornerRadius: 24))
 
-                Button("Done") { dismiss() }
+                Button("Готово") { dismiss() }
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
             }

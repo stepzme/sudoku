@@ -7,5 +7,5 @@ struct SudokuLevel: Identifiable, Codable, Equatable, Sendable {
     let solution: [Int]
 
     var id: String { "\(difficulty.rawValue)-\(number)" }
-    var title: String { "Level \(number)" }
+    var title: String { "Уровень \(number)" }
 }

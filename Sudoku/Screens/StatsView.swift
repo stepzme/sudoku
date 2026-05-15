@@ -5,20 +5,20 @@ struct StatsView: View {
 
     var body: some View {
         List {
-            Section("Overall") {
-                StatRow(title: "Completed", value: "\(progressStore.completedLevels.count)/\(LevelCatalog.totalLevels)")
+            Section("Общее") {
+                StatRow(title: "Пройдено", value: "\(progressStore.completedLevels.count)/\(LevelCatalog.totalLevels)")
             }
 
-            Section("By Difficulty") {
+            Section("По сложности") {
                 ForEach(Difficulty.allCases) { difficulty in
                     StatRow(
                         title: difficulty.title,
-                        value: "\(progressStore.completedCount(for: difficulty))/\(LevelCatalog.levelsPerDifficulty)"
+                        value: "\(progressStore.completedCount(for: difficulty))/\(LevelCatalog.shared.levelCount(for: difficulty))"
                     )
                 }
             }
         }
-        .navigationTitle("Stats")
+        .navigationTitle("Статистика")
     }
 }
 

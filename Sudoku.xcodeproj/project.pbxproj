@@ -23,7 +23,10 @@
 		AE6F73F48C78B6F0CA8CEC4D /* ProgressStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C42D0D7C13EE59902B8F28D /* ProgressStore.swift */; };
 		B62EDCCF065C5F491D178F7D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A64AD31D35FB50DCC17BD1C2 /* HomeView.swift */; };
 		C06FC3DBD1C87A446ED4177D /* NumberPadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94E25333F3CEF7C869E4426 /* NumberPadView.swift */; };
+		C06FC3DBD1C87A446ED4177E /* DigitPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94E25333F3CEF7C869E4427 /* DigitPalette.swift */; };
 		CE419A5B4624431E7B5BF48D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F3D21609FCFFB3807452666 /* Assets.xcassets */; };
+		D49F4D1A2FBE4C1300AA0001 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D49F4D192FBE4C1300AA0001 /* LaunchScreen.storyboard */; };
+		D49F4D1C2FBE4C1300AA0001 /* Levels.json in Resources */ = {isa = PBXBuildFile; fileRef = D49F4D1B2FBE4C1300AA0001 /* Levels.json */; };
 		D6D29DD2124E9C4B61ADFE77 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDAF29ADA2CA408EBA8456F /* RootView.swift */; };
 		D9A0727EA3A6F813F53F28D4 /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDD29CB791D667E952A3476 /* PauseView.swift */; };
 		EB3844E4B9A92DF4191F2D47 /* LevelCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E44B8410B881698C28C73B5 /* LevelCatalog.swift */; };
@@ -50,7 +53,10 @@
 		A71DD3050F650F2E797EEF6B /* SudokuGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SudokuGameViewModel.swift; path = ViewModels/SudokuGameViewModel.swift; sourceTree = "<group>"; };
 		B4BCBC067FF73390479DBEF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C94E25333F3CEF7C869E4426 /* NumberPadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NumberPadView.swift; path = Views/NumberPadView.swift; sourceTree = "<group>"; };
+		C94E25333F3CEF7C869E4427 /* DigitPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DigitPalette.swift; path = Views/DigitPalette.swift; sourceTree = "<group>"; };
 		CE9E72D8496D46BA67FD2BFC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = Screens/SettingsView.swift; sourceTree = "<group>"; };
+		D49F4D192FBE4C1300AA0001 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D49F4D1B2FBE4C1300AA0001 /* Levels.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Levels.json; sourceTree = "<group>"; };
 		E543437731A364AAC376B24B /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StatsView.swift; path = Screens/StatsView.swift; sourceTree = "<group>"; };
 		ECD241197744A98C309B8763 /* SudokuLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SudokuLevel.swift; path = Models/SudokuLevel.swift; sourceTree = "<group>"; };
 		PRODUCTREF000000000001 /* Sudoku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sudoku.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,8 +110,11 @@
 				3D97B482C4141C43144FF3A6 /* SeededRandomNumberGenerator.swift */,
 				7EFECAC1B6E6826568B1477D /* SudokuApp.swift */,
 				A71DD3050F650F2E797EEF6B /* SudokuGameViewModel.swift */,
+				C94E25333F3CEF7C869E4427 /* DigitPalette.swift */,
 				C94E25333F3CEF7C869E4426 /* NumberPadView.swift */,
 				055F7410C884AFA656C0A51D /* SudokuBoardView.swift */,
+				D49F4D192FBE4C1300AA0001 /* LaunchScreen.storyboard */,
+				D49F4D1B2FBE4C1300AA0001 /* Levels.json */,
 				B4BCBC067FF73390479DBEF1 /* Info.plist */,
 				0F3D21609FCFFB3807452666 /* Assets.xcassets */,
 			);
@@ -171,6 +180,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE419A5B4624431E7B5BF48D /* Assets.xcassets in Resources */,
+				D49F4D1A2FBE4C1300AA0001 /* LaunchScreen.storyboard in Resources */,
+				D49F4D1C2FBE4C1300AA0001 /* Levels.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,6 +210,7 @@
 				6B30BB4EA645FCCFCBA41864 /* SeededRandomNumberGenerator.swift in Sources */,
 				614A30CE3CEE95311FFAA8C3 /* SudokuApp.swift in Sources */,
 				1BA049764571C85B5361967D /* SudokuGameViewModel.swift in Sources */,
+				C06FC3DBD1C87A446ED4177E /* DigitPalette.swift in Sources */,
 				C06FC3DBD1C87A446ED4177D /* NumberPadView.swift in Sources */,
 				249B50384E1936C69B738958 /* SudokuBoardView.swift in Sources */,
 			);
@@ -276,14 +288,20 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2695624LWY;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Sudoku/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.my-own-sudoku";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -349,14 +367,20 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2695624LWY;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Sudoku/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.my-own-sudoku";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -7,9 +7,9 @@ struct HomeView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Sudoku")
+                    Text("Судоку")
                         .font(.system(size: 48, weight: .bold, design: .rounded))
-                    Text("60 curated puzzles across three difficulties.")
+                    Text("\(LevelCatalog.totalLevels) готовых головоломок в трех уровнях сложности.")
                         .font(.headline)
                         .foregroundStyle(.secondary)
                 }
@@ -24,25 +24,18 @@ struct HomeView: View {
                     .buttonStyle(.plain)
                 }
 
-                NavigationLink {
-                    DifficultySelectionView()
-                } label: {
-                    PrimaryActionCard(title: "New Game", subtitle: "Choose a difficulty and level", systemImage: "play.fill")
-                }
-                .buttonStyle(.plain)
-
                 HStack(spacing: 16) {
                     NavigationLink {
                         StatsView()
                     } label: {
-                        SecondaryActionCard(title: "Stats", systemImage: "chart.bar.fill")
+                        SecondaryActionCard(title: "Статистика", systemImage: "chart.bar.fill")
                     }
                     .buttonStyle(.plain)
 
                     NavigationLink {
                         SettingsView()
                     } label: {
-                        SecondaryActionCard(title: "Settings", systemImage: "gearshape.fill")
+                        SecondaryActionCard(title: "Настройки", systemImage: "gearshape.fill")
                     }
                     .buttonStyle(.plain)
                 }
@@ -51,8 +44,32 @@ struct HomeView: View {
             }
             .padding(24)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(Color(.systemGroupedBackground))
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Color.clear
+                    .frame(width: 0, height: 0)
+            }
+        }
+        .safeAreaInset(edge: .bottom) {
+            NavigationLink {
+                DifficultySelectionView()
+            } label: {
+                BottomPrimaryActionButton(
+                    title: "Новая игра",
+                    subtitle: "Выберите сложность и уровень",
+                    systemImage: "play.fill"
+                )
+            }
+            .buttonStyle(.plain)
+            .padding(.horizontal, 24)
+            .padding(.top, 12)
+            .padding(.bottom, 12)
+            .background(.ultraThinMaterial)
+        }
         .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.automatic, for: .navigationBar)
     }
 }
 
@@ -68,9 +85,10 @@ private struct ContinueCard: View {
                 .foregroundStyle(.blue)
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("Continue")
-                    .font(.title3.bold())
-                Text("\(snapshot.level.difficulty.title) · Level \(snapshot.level.number)")
+                Text("Продолжить")
+                    .font(.headline.bold())
+                Text("\(snapshot.level.difficulty.title) · Уровень \(snapshot.level.number)")
+                    .font(.caption)
                     .foregroundStyle(.secondary)
             }
 
@@ -84,7 +102,7 @@ private struct ContinueCard: View {
     }
 }
 
-private struct PrimaryActionCard: View {
+private struct BottomPrimaryActionButton: View {
     let title: String
     let subtitle: String
     let systemImage: String
@@ -93,21 +111,25 @@ private struct PrimaryActionCard: View {
         HStack(spacing: 16) {
             Image(systemName: systemImage)
                 .font(.title2.bold())
-                .frame(width: 56, height: 56)
+                .frame(width: 52, height: 52)
                 .background(.white.opacity(0.25), in: RoundedRectangle(cornerRadius: 18))
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
-                    .font(.title2.bold())
+                    .font(.headline.bold())
                 Text(subtitle)
-                    .font(.subheadline)
+                    .font(.caption)
                     .opacity(0.85)
             }
             Spacer()
             Image(systemName: "chevron.right")
         }
         .foregroundStyle(.white)
-        .padding(22)
-        .background(LinearGradient(colors: [.blue, .purple], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: 30))
+        .padding(.horizontal, 20)
+        .padding(.vertical, 16)
+        .background(
+            LinearGradient(colors: [.blue, .purple], startPoint: .topLeading, endPoint: .bottomTrailing),
+            in: RoundedRectangle(cornerRadius: 24)
+        )
     }
 }
 
@@ -134,20 +156,21 @@ private struct DifficultyProgressSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("Progress")
+            Text("Прогресс")
                 .font(.title3.bold())
             ForEach(Difficulty.allCases) { difficulty in
                 let completed = progressStore.completedCount(for: difficulty)
+                let total = LevelCatalog.shared.levelCount(for: difficulty)
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Text(difficulty.title)
                             .font(.headline)
                         Spacer()
-                        Text("\(completed)/\(LevelCatalog.levelsPerDifficulty)")
+                        Text("\(completed)/\(total)")
                             .font(.subheadline.monospacedDigit())
                             .foregroundStyle(.secondary)
                     }
-                    ProgressView(value: Double(completed), total: Double(LevelCatalog.levelsPerDifficulty))
+                    ProgressView(value: Double(completed), total: Double(total))
                         .tint(difficulty.color)
                 }
                 .padding(16)

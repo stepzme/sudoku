@@ -20,8 +20,9 @@ struct DifficultySelectionView: View {
             }
             .padding(20)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(Color(.systemGroupedBackground))
-        .navigationTitle("Choose Difficulty")
+        .navigationTitle("Выберите сложность")
     }
 }
 
@@ -30,6 +31,7 @@ private struct DifficultyCard: View {
     let completed: Int
 
     var body: some View {
+        let total = LevelCatalog.shared.levelCount(for: difficulty)
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 8) {
@@ -44,13 +46,13 @@ private struct DifficultyCard: View {
                     .foregroundStyle(difficulty.color)
             }
 
-            ProgressView(value: Double(completed), total: Double(LevelCatalog.levelsPerDifficulty))
+            ProgressView(value: Double(completed), total: Double(total))
                 .tint(difficulty.color)
 
             HStack {
-                Label("\(completed) completed", systemImage: "checkmark.seal.fill")
+                Label("\(completed) пройдено", systemImage: "checkmark.seal.fill")
                 Spacer()
-                Text("\(LevelCatalog.levelsPerDifficulty) levels")
+                Text("\(total) уровней")
             }
             .font(.subheadline.weight(.semibold))
             .foregroundStyle(.secondary)

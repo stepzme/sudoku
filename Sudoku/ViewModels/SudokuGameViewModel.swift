@@ -2,6 +2,8 @@ import Foundation
 import SwiftUI
 
 final class SudokuGameViewModel: ObservableObject {
+    static let hintLimit = 3
+
     @Published private(set) var cells: [SudokuCell]
     @Published var selectedCellID: Int?
     @Published private(set) var mistakes: Int
@@ -41,10 +43,25 @@ final class SudokuGameViewModel: ObservableObject {
     }
 
     var mistakeLimit: Int { level.difficulty.mistakeLimit }
+    var remainingHints: Int { max(0, Self.hintLimit - hintsUsed) }
+    var canUseHint: Bool { remainingHints > 0 && !isComplete && !isFailed }
+    var canErase: Bool {
+        guard !isComplete, !isFailed, let selectedCell else { return false }
+        guard !selectedCell.isGiven else { return false }
+        return selectedCell.value != 0 || !selectedCell.notes.isEmpty
+    }
     var isFailed: Bool { mistakes >= mistakeLimit }
     var progressText: String { "\(filledCells)/81" }
     var filledCells: Int { cells.filter { !$0.isEmpty }.count }
     var formattedTime: String { Self.format(seconds: elapsedSeconds) }
+
+    func remainingPlacements(for number: Int) -> Int {
+        max(0, 9 - cells.filter { $0.value == number }.count)
+    }
+
+    func isNumberExhausted(_ number: Int) -> Bool {
+        remainingPlacements(for: number) == 0
+    }
 
     func select(_ cell: SudokuCell) {
         selectedCellID = cell.id
@@ -80,7 +97,7 @@ final class SudokuGameViewModel: ObservableObject {
     }
 
     func erase() {
-        guard !isComplete, let selectedCellID else { return }
+        guard canErase, let selectedCellID else { return }
         guard let index = cells.firstIndex(where: { $0.id == selectedCellID }), !cells[index].isGiven else { return }
         pushHistory()
         cells[index].value = 0
@@ -95,6 +112,7 @@ final class SudokuGameViewModel: ObservableObject {
     }
 
     func useHint() {
+        guard canUseHint else { return }
         guard !isComplete, let targetIndex = hintTargetIndex() else { return }
         pushHistory()
         cells[targetIndex].value = cells[targetIndex].solution
@@ -142,6 +160,10 @@ final class SudokuGameViewModel: ObservableObject {
 
     func saveProgress() {
         guard !isComplete else { return }
+        guard !isFailed else {
+            progressStore.clearActiveGame(for: level)
+            return
+        }
         progressStore.saveActiveGame(snapshot())
     }
 

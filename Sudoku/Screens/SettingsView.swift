@@ -7,17 +7,17 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
-            Section("Gameplay") {
-                Toggle("Highlight related cells", isOn: $highlightPeers)
-                Toggle("Auto-remove notes", isOn: $autoRemoveNotes)
-                Toggle("Haptics", isOn: $haptics)
+            Section("Игра") {
+                Toggle("Подсвечивать связанные клетки", isOn: $highlightPeers)
+                Toggle("Автоматически удалять заметки", isOn: $autoRemoveNotes)
+                Toggle("Тактильный отклик", isOn: $haptics)
             }
 
-            Section("About") {
-                LabeledContent("Levels", value: "\(LevelCatalog.totalLevels)")
-                LabeledContent("Difficulties", value: "Easy, Medium, Hard")
+            Section("О приложении") {
+                LabeledContent("Уровней", value: "\(LevelCatalog.totalLevels)")
+                LabeledContent("Сложности", value: "Легко, Средне, Сложно")
             }
         }
-        .navigationTitle("Settings")
+        .navigationTitle("Настройки")
     }
 }

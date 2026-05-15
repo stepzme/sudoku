@@ -11,20 +11,20 @@ struct PauseView: View {
                 Image(systemName: "pause.circle.fill")
                     .font(.system(size: 64))
                     .foregroundStyle(.blue)
-                Text("Paused")
+                Text("Пауза")
                     .font(.largeTitle.bold())
-                Text("\(viewModel.level.difficulty.title) · Level \(viewModel.level.number)")
+                Text("\(viewModel.level.difficulty.title) · Уровень \(viewModel.level.number)")
                     .foregroundStyle(.secondary)
 
                 VStack(spacing: 12) {
-                    Button("Resume") { dismiss() }
+                    Button("Продолжить") { dismiss() }
                         .buttonStyle(.borderedProminent)
-                    Button("Restart Level", role: .destructive) {
+                    Button("Начать заново", role: .destructive) {
                         viewModel.restart()
                         dismiss()
                     }
                     .buttonStyle(.bordered)
-                    Button("Save & Exit") {
+                    Button("Сохранить и выйти") {
                         viewModel.saveProgress()
                         dismiss()
                         exit()
