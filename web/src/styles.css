@@ -568,6 +568,7 @@ button {
 }
 
 .board-digit {
+  display: block;
   width: 84%;
   height: 84%;
   object-fit: contain;
@@ -655,8 +656,13 @@ button {
 }
 
 .pad-digit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
   width: 56%;
   height: 56%;
+  transform: translate(-50%, -50%);
   object-fit: contain;
   pointer-events: none;
 }
