@@ -406,18 +406,34 @@ button {
 }
 
 .game-screen {
+  --game-gap: clamp(7px, 1.35dvh, 12px);
+  --game-topbar-height: 42px;
+  --game-metrics-height: 56px;
+  --game-tools-height: clamp(48px, 6.9dvh, 58px);
+  --game-pad-target-height: clamp(138px, 26dvh, 224px);
+  --game-vertical-padding: calc(max(8px, env(safe-area-inset-top)) + max(8px, env(safe-area-inset-bottom)));
+  --board-size: min(
+    calc(100vw - 8px),
+    calc(
+      100dvh - var(--game-topbar-height) - var(--game-metrics-height) - var(--game-tools-height) -
+        var(--game-pad-target-height) - (var(--game-gap) * 4) - var(--game-vertical-padding)
+    )
+  );
+
   display: grid;
-  min-height: 100dvh;
-  grid-template-rows: auto auto auto auto 1fr;
-  gap: 12px;
-  padding: max(8px, env(safe-area-inset-top)) 4px 12px;
+  height: 100dvh;
+  min-height: 0;
+  grid-template-rows: auto auto auto auto minmax(0, 1fr);
+  gap: var(--game-gap);
+  overflow: hidden;
+  padding: max(8px, env(safe-area-inset-top)) 4px max(8px, env(safe-area-inset-bottom));
 }
 
 .game-topbar {
   display: grid;
   grid-template-columns: 76px 1fr 44px;
   align-items: center;
-  min-height: 42px;
+  min-height: var(--game-topbar-height);
   padding: 0 12px;
 }
 
@@ -462,8 +478,10 @@ button {
   display: grid;
   justify-items: center;
   gap: 4px;
+  min-height: var(--game-metrics-height);
   min-width: 0;
-  padding: 10px 4px;
+  align-content: center;
+  padding: clamp(7px, 1.1dvh, 10px) 4px;
   background: var(--card-bg);
   border-radius: 16px;
 }
@@ -488,8 +506,8 @@ button {
 
 .sudoku-board {
   display: grid;
-  width: calc(100vw - 8px);
-  max-width: 552px;
+  width: max(0px, var(--board-size));
+  max-width: min(552px, calc(100vw - 8px));
   aspect-ratio: 1;
   grid-template-columns: repeat(9, minmax(0, 1fr));
   grid-template-rows: repeat(9, minmax(0, 1fr));
@@ -588,10 +606,11 @@ button {
 .tool-button {
   display: grid;
   min-width: 0;
-  min-height: 58px;
+  min-height: 0;
+  height: var(--game-tools-height);
   place-items: center;
   gap: 4px;
-  padding: 8px 2px;
+  padding: clamp(5px, 1dvh, 8px) 2px;
   color: #111114;
   background: var(--card-bg);
   border-radius: 16px;
@@ -612,7 +631,9 @@ button {
 .number-pad {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: clamp(7px, 1.2dvh, 10px);
+  height: 100%;
   min-height: 0;
   padding: 0 16px;
 }
@@ -621,7 +642,7 @@ button {
   position: relative;
   display: grid;
   min-width: 0;
-  min-height: 68px;
+  min-height: 0;
   place-items: center;
   padding: 0;
   background: color-mix(in srgb, var(--digit-color) 50%, transparent);
@@ -839,19 +860,13 @@ button {
 
 @media (max-height: 740px) {
   .game-screen {
-    gap: 8px;
+    --game-gap: 8px;
+    --game-metrics-height: 52px;
+    --game-pad-target-height: 150px;
   }
 
   .metric-pill {
-    padding: 8px 4px;
-  }
-
-  .tool-button {
-    min-height: 52px;
-  }
-
-  .number-button {
-    min-height: 58px;
+    padding: 7px 4px;
   }
 }
 
