@@ -1,6 +1,6 @@
 # Sudoku PWA
 
-Web/PWA version of the Sudoku app.
+Mobile-first web/PWA Sudoku app.
 
 ## Commands
 
@@ -13,6 +13,6 @@ Web/PWA version of the Sudoku app.
 ## Notes
 
 - Levels are loaded from `public/levels.json`.
-- Digit images are copied from the native app into `public/digits`.
+- Digit images are stored in `public/digits`.
 - Progress, active game and settings are stored locally on the device.
 - `dev/generate_levels.swift` is kept as an internal generator reference.
