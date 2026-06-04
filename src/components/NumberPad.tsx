@@ -1,4 +1,4 @@
-import { digitColor } from '../game/digits'
+import { digitColor, digitOutline } from '../game/digits'
 import DigitImage from './DigitImage'
 
 interface NumberPadProps {
@@ -24,6 +24,7 @@ export default function NumberPad({ isNotesMode, remainingCount, isDisabled, onT
             onClick={() => onTap(number)}
             style={{
               '--digit-color': digitColor(number),
+              '--digit-outline': digitOutline(number),
             } as React.CSSProperties}
           >
             <DigitImage value={number} className="pad-digit" alt="" />

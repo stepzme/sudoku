@@ -6,7 +6,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   --app-width: 402px;
-  --text-outline: #214f7d;
+  --text-outline: #264f7f;
   --grid-line: rgba(48, 73, 93, 0.13);
 }
 
@@ -73,12 +73,8 @@ button {
   color: #fff;
   font-size: 44px;
   line-height: 1;
-  text-shadow:
-    -2px -2px 0 #214f7d,
-    2px -2px 0 #214f7d,
-    -2px 2px 0 #214f7d,
-    2px 2px 0 #214f7d,
-    0 4px 0 rgba(33, 79, 125, 0.38);
+  -webkit-text-stroke: 3px #264f7f;
+  paint-order: stroke fill;
 }
 
 .centered-state p {
@@ -103,7 +99,7 @@ button {
 .theme-easy {
   --screen-bg: #e3f0f4;
   --theme-border: #1e6592;
-  --theme-shadow: #214f7d;
+  --theme-shadow: #264f7f;
   --theme-top: #6ed0ef;
   --theme-main: #4db9e6;
   --theme-bottom: #49b2de;
@@ -116,7 +112,7 @@ button {
 .theme-medium {
   --screen-bg: #f2e6df;
   --theme-border: #ab3e08;
-  --theme-shadow: #8c3a18;
+  --theme-shadow: #ab3e08;
   --theme-top: #f06b22;
   --theme-main: #f79518;
   --theme-bottom: #f79518;
@@ -129,7 +125,7 @@ button {
 .theme-hard {
   --screen-bg: #f1e2ea;
   --theme-border: #ab0851;
-  --theme-shadow: #8d1a59;
+  --theme-shadow: #ab0851;
   --theme-top: #f0227f;
   --theme-main: #f7187c;
   --theme-bottom: #f7187c;
@@ -145,12 +141,9 @@ button {
 .game-title-card,
 .tool-button,
 .continue-game-card {
-  text-shadow:
-    -2px -2px 0 var(--text-outline),
-    2px -2px 0 var(--text-outline),
-    -2px 2px 0 var(--text-outline),
-    2px 2px 0 var(--text-outline),
-    0 3px 0 rgba(30, 52, 75, 0.18);
+  -webkit-text-stroke: 3px var(--text-outline);
+  paint-order: stroke fill;
+  text-shadow: none;
 }
 
 .toy-button {
@@ -186,7 +179,7 @@ button {
   --btn-bottom: #f79518;
   --btn-highlight: #fdea89;
   --btn-shine: #f79518;
-  --text-outline: #8c3a18;
+  --text-outline: #ab3e08;
 }
 
 .toy-button-neutral {
@@ -282,7 +275,7 @@ button {
 }
 
 .continue-game-card {
-  --text-outline: #214f7d;
+  --text-outline: #264f7f;
 
   position: absolute;
   right: 16px;
@@ -309,9 +302,9 @@ button {
   width: 56px;
   height: 56px;
   place-items: center;
-  color: #214f7d;
+  color: #264f7f;
   background: #f8fbfd;
-  border: 3px solid #214f7d;
+  border: 3px solid #264f7f;
   border-radius: 999px;
   text-shadow: none;
 }
@@ -336,6 +329,7 @@ button {
   line-height: 1;
   text-overflow: ellipsis;
   white-space: nowrap;
+  -webkit-text-stroke-width: 2px;
 }
 
 .level-select-screen {
@@ -399,6 +393,7 @@ button {
   font-size: 12px;
   line-height: 1;
   white-space: nowrap;
+  -webkit-text-stroke-width: 2px;
 }
 
 .difficulty-title-card img {
@@ -441,12 +436,9 @@ button {
   border-radius: 21px;
   font-size: clamp(25px, 7vw, 28px);
   line-height: 1;
-  text-shadow:
-    -2px -2px 0 var(--text-outline),
-    2px -2px 0 var(--text-outline),
-    -2px 2px 0 var(--text-outline),
-    2px 2px 0 var(--text-outline),
-    0 3px 0 rgba(30, 52, 75, 0.18);
+  -webkit-text-stroke: 3px var(--text-outline);
+  paint-order: stroke fill;
+  text-shadow: none;
 }
 
 .level-choice-tile.is-unlocked {
@@ -493,14 +485,17 @@ button {
 }
 
 .level-back-button {
-  position: relative;
+  position: absolute;
+  right: 16px;
+  bottom: clamp(16px, 4.58dvh, 40px);
+  left: 16px;
   z-index: 1;
-  width: 100%;
+  width: auto;
 }
 
 .game-screen {
-  --game-gap: clamp(7px, 1.1dvh, 16px);
-  --game-header-height: clamp(108px, 15.7dvh, 137px);
+  --game-gap: clamp(8px, 1.83dvh, 16px);
+  --game-header-height: clamp(104px, 13.84dvh, 121px);
   --game-tools-height: clamp(62px, 9.6dvh, 84px);
   --game-pad-height: clamp(144px, 21.4dvh, 187px);
   --board-size: min(
@@ -559,6 +554,7 @@ button {
   margin: 0;
   font-size: 12px;
   line-height: 1;
+  -webkit-text-stroke-width: 2px;
 }
 
 .game-close-button,
@@ -590,12 +586,9 @@ button {
   color: #fff;
   font-size: clamp(12px, 3.3vw, 14px);
   line-height: 1;
-  text-shadow:
-    -1.5px -1.5px 0 var(--text-outline),
-    1.5px -1.5px 0 var(--text-outline),
-    -1.5px 1.5px 0 var(--text-outline),
-    1.5px 1.5px 0 var(--text-outline),
-    0 2px 0 rgba(30, 52, 75, 0.16);
+  -webkit-text-stroke: 2px var(--text-outline);
+  paint-order: stroke fill;
+  text-shadow: none;
 }
 
 .sudoku-board {
@@ -721,6 +714,7 @@ button {
     inset 0 22px 0 color-mix(in srgb, var(--theme-shine) 40%, white);
   font-size: clamp(11px, 3.1vw, 12px);
   line-height: 1;
+  -webkit-text-stroke-width: 2px;
 }
 
 .tool-button.is-selected {
@@ -782,7 +776,7 @@ button {
 }
 
 .remaining-count {
-  --text-outline: color-mix(in srgb, var(--digit-color) 62%, #333);
+  --text-outline: var(--digit-outline, color-mix(in srgb, var(--digit-color) 62%, #333));
 
   position: absolute;
   top: 4px;
@@ -790,11 +784,9 @@ button {
   color: #fff;
   font-size: clamp(12px, 3.5vw, 14px);
   line-height: 1;
-  text-shadow:
-    -1px -1px 0 var(--text-outline),
-    1px -1px 0 var(--text-outline),
-    -1px 1px 0 var(--text-outline),
-    1px 1px 0 var(--text-outline);
+  -webkit-text-stroke: 2px var(--text-outline);
+  paint-order: stroke fill;
+  text-shadow: none;
 }
 
 .asset-preload {
@@ -860,23 +852,18 @@ button {
   margin: 0;
   font-size: clamp(25px, 7vw, 28px);
   line-height: 1;
-  text-shadow:
-    -2px -2px 0 var(--text-outline),
-    2px -2px 0 var(--text-outline),
-    -2px 2px 0 var(--text-outline),
-    2px 2px 0 var(--text-outline),
-    0 3px 0 rgba(30, 52, 75, 0.18);
+  -webkit-text-stroke: 3px var(--text-outline);
+  paint-order: stroke fill;
+  text-shadow: none;
 }
 
 .game-dialog-copy p {
   margin: 0;
   font-size: 12px;
   line-height: 1;
-  text-shadow:
-    -1.5px -1.5px 0 var(--text-outline),
-    1.5px -1.5px 0 var(--text-outline),
-    -1.5px 1.5px 0 var(--text-outline),
-    1.5px 1.5px 0 var(--text-outline);
+  -webkit-text-stroke: 2px var(--text-outline);
+  paint-order: stroke fill;
+  text-shadow: none;
 }
 
 .dialog-button {
@@ -897,11 +884,9 @@ button {
   color: #fff;
   font-size: clamp(15px, 4.3vw, 18px);
   line-height: 1;
-  text-shadow:
-    -1.5px -1.5px 0 #214f7d,
-    1.5px -1.5px 0 #214f7d,
-    -1.5px 1.5px 0 #214f7d,
-    1.5px 1.5px 0 #214f7d;
+  -webkit-text-stroke: 2px #264f7f;
+  paint-order: stroke fill;
+  text-shadow: none;
 }
 
 .result-lines span {
