@@ -8,7 +8,7 @@ document.head.insertAdjacentHTML(
   `<style>
     @font-face {
       font-family: 'Rotonda';
-      src: url('${import.meta.env.BASE_URL}fonts/Rotonda-Bold.woff2') format('woff2');
+      src: url('${import.meta.env.BASE_URL}fonts/rotonda_bold.ttf') format('truetype');
       font-display: swap;
       font-style: normal;
       font-weight: 700;
