@@ -1,98 +1,54 @@
-import { BarChart3, ChevronRight, Clock3, Play, Settings } from 'lucide-react'
+import { Play } from 'lucide-react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import BottomAction from '../components/BottomAction'
-import { type LevelCatalog, countLevels } from '../game/levels'
+import { homeCharacterCount, homeCharacterSrc, publicAsset } from '../game/assets'
 import { formatSeconds, useProgress } from '../game/progress'
-import { difficulties, difficultyInfo, levelId } from '../game/types'
+import { difficultyInfo } from '../game/types'
 
-interface HomeScreenProps {
-  catalog: LevelCatalog
-  totalLevels: number
-}
-
-export default function HomeScreen({ catalog, totalLevels }: HomeScreenProps) {
+export default function HomeScreen() {
   const progress = useProgress()
+  const [characterIndex] = useState(randomCharacterIndex)
+  const activeGame = progress.activeGame
 
   return (
-    <section className="screen home-screen with-bottom-action">
-      <div className="home-title">
-        <h1>Судоку</h1>
-        <p>{totalLevels} готовых головоломок в трех уровнях сложности.</p>
-      </div>
+    <section className={activeGame ? 'home-scene has-active-game' : 'home-scene'}>
+      <img className="home-bg" src={publicAsset('assets/home/background.png')} alt="" aria-hidden="true" />
+      <img className="home-logo" src={publicAsset('assets/home/logo.png')} alt="Судоку" draggable={false} />
+      <img
+        className="home-character"
+        src={homeCharacterSrc(characterIndex)}
+        alt=""
+        aria-hidden="true"
+        draggable={false}
+      />
 
-      {progress.activeGame ? (
+      {activeGame ? (
         <Link
-          className="continue-card"
-          to={`/game/${progress.activeGame.level.difficulty}/${progress.activeGame.level.number}`}
+          className="continue-game-card"
+          to={`/game/${activeGame.level.difficulty}/${activeGame.level.number}`}
         >
-          <span className="card-icon blue-soft">
-            <Clock3 size={26} strokeWidth={2.5} />
+          <span className="continue-play-icon">
+            <Play size={23} fill="currentColor" strokeWidth={3} />
           </span>
-          <span>
-            <strong>Продолжить</strong>
+          <span className="continue-copy">
+            <strong>Продолжить игру</strong>
             <small>
-              {difficultyInfo[progress.activeGame.level.difficulty].title} · Уровень{' '}
-              {progress.activeGame.level.number} · {formatSeconds(progress.activeGame.elapsedSeconds)}
+              {difficultyInfo[activeGame.level.difficulty].title}・Уровень {activeGame.level.number} ・
+              {formatSeconds(activeGame.elapsedSeconds)}
             </small>
           </span>
-          <ChevronRight className="chevron" size={22} />
         </Link>
       ) : null}
 
-      <div className="secondary-actions">
-        <Link className="secondary-card" to="/stats">
-          <BarChart3 size={27} strokeWidth={2.5} />
-          <strong>Статистика</strong>
-        </Link>
-        <Link className="secondary-card" to="/settings">
-          <Settings size={27} strokeWidth={2.5} />
-          <strong>Настройки</strong>
-        </Link>
-      </div>
-
-      <section className="progress-section">
-        <h2>Прогресс</h2>
-        {difficulties.map((difficulty) => {
-          const completed = progress.completedCount(difficulty)
-          const total = countLevels(catalog, difficulty)
-          const percent = total > 0 ? (completed / total) * 100 : 0
-
-          return (
-            <article className="progress-card" key={difficulty}>
-              <div className="row">
-                <strong>{difficultyInfo[difficulty].title}</strong>
-                <span>
-                  {completed}/{total}
-                </span>
-              </div>
-              <div className="progress-track">
-                <span
-                  className="progress-fill"
-                  style={{
-                    width: `${percent}%`,
-                    backgroundColor: difficultyInfo[difficulty].color,
-                  }}
-                />
-              </div>
-            </article>
-          )
-        })}
-      </section>
-
-      <BottomAction>
-        <Link className="primary-action" to="/new">
-          <span className="primary-icon">
-            <Play size={22} fill="currentColor" />
-          </span>
-          <span>
-            <strong>Новая игра</strong>
-            <small>Выберите сложность и уровень</small>
-          </span>
-          <ChevronRight size={22} />
-        </Link>
-      </BottomAction>
-
-      <span className="sr-only">{progress.activeGame ? levelId(progress.activeGame.level) : 'no-active-game'}</span>
+      <Link className="toy-button toy-button-orange home-new-game" to="/levels/easy">
+        Новая игра
+      </Link>
     </section>
   )
+}
+
+function randomCharacterIndex() {
+  const buffer = new Uint32Array(1)
+  crypto.getRandomValues(buffer)
+  return (buffer[0] % homeCharacterCount) + 1
 }

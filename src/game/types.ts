@@ -13,19 +13,19 @@ export const difficultyInfo: Record<Difficulty, DifficultyInfo> = {
   easy: {
     title: 'Легко',
     subtitle: 'Спокойные головоломки с большим количеством подсказок.',
-    color: '#34c759',
+    color: '#4db9e6',
     mistakeLimit: 5,
   },
   medium: {
     title: 'Средне',
     subtitle: 'Сбалансированные уровни для обычной игры.',
-    color: '#ff9500',
+    color: '#f79518',
     mistakeLimit: 4,
   },
   hard: {
     title: 'Сложно',
     subtitle: 'Требовательные головоломки для вдумчивого решения.',
-    color: '#ff3b30',
+    color: '#f7187c',
     mistakeLimit: 3,
   },
 }

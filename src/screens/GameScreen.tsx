@@ -1,10 +1,17 @@
-import { Eraser, Lightbulb, PauseCircle, Pencil, RotateCcw, Timer, Trophy, Undo2, XCircle } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import {
+  Eraser,
+  Lightbulb,
+  Pause,
+  Pencil,
+  Undo2,
+  X,
+  type LucideIcon,
+} from 'lucide-react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
-import MetricPill from '../components/MetricPill'
-import ModalSheet from '../components/ModalSheet'
 import NumberPad from '../components/NumberPad'
 import SudokuBoard from '../components/SudokuBoard'
+import { publicAsset } from '../game/assets'
 import { findLevel, type LevelCatalog } from '../game/levels'
 import { useProgress } from '../game/progress'
 import { difficultyInfo, isDifficulty, levelId } from '../game/types'
@@ -33,28 +40,36 @@ export default function GameScreen({ catalog }: { catalog: LevelCatalog }) {
     return () => window.clearInterval(id)
   }, [game, level, timerPaused])
 
-  if (!level) return <Navigate to="/new" replace />
+  if (!level) return <Navigate to="/levels/easy" replace />
 
   return (
-    <section className="game-screen">
-      <header className="game-topbar">
-        <button className="icon-text-button" type="button" onClick={() => navigate(-1)}>
-          <Undo2 size={18} />
-          Назад
+    <section className={`game-screen theme-${level.difficulty}`}>
+      <header className="game-header">
+        <button
+          className="round-theme-button game-close-button"
+          type="button"
+          onClick={() => navigate(`/levels/${level.difficulty}`)}
+          aria-label="Закрыть"
+        >
+          <X size={31} strokeWidth={4} />
         </button>
-        <strong>
-          {difficultyInfo[level.difficulty].title} · {level.number}
-        </strong>
-        <button className="icon-only-button" type="button" onClick={() => setShowPause(true)} aria-label="Пауза">
-          <PauseCircle size={28} />
-        </button>
-      </header>
 
-      <div className="metrics-row">
-        <MetricPill title="Время" value={game.formattedTime} icon={Timer} />
-        <MetricPill title="Ошибки" value={`${game.mistakes}/${game.mistakeLimit}`} icon={XCircle} />
-        <MetricPill title="Подсказки" value={`${game.remainingHints}/${hintLimit}`} icon={Lightbulb} />
-      </div>
+        <div className="game-title-card">
+          <h1>Уровень {level.number}</h1>
+          <p>
+            {difficultyInfo[level.difficulty].title}・{game.formattedTime}
+          </p>
+        </div>
+
+        <button className="round-theme-button game-pause-button" type="button" onClick={() => setShowPause(true)} aria-label="Пауза">
+          <Pause size={27} fill="currentColor" strokeWidth={4} />
+        </button>
+
+        <div className="game-status-row">
+          <span>Ошибки・{game.mistakes}/{game.mistakeLimit}</span>
+          <span>Подсказки・{game.remainingHints}/{hintLimit}</span>
+        </div>
+      </header>
 
       <SudokuBoard game={game} />
 
@@ -72,69 +87,59 @@ export default function GameScreen({ catalog }: { catalog: LevelCatalog }) {
         onTap={game.enter}
       />
 
+      <div className="asset-preload" aria-hidden="true">
+        <img src={publicAsset('assets/modal/pause.png')} alt="" />
+        <img src={publicAsset('assets/modal/completed.png')} alt="" />
+        <img src={publicAsset('assets/modal/failed.png')} alt="" />
+      </div>
+
       {showPause ? (
-        <ModalSheet>
-          <PauseCircle className="sheet-icon blue" size={64} />
-          <h2>Пауза</h2>
-          <p>
-            {difficultyInfo[level.difficulty].title} · Уровень {level.number}
-          </p>
-          <button className="sheet-primary" type="button" onClick={() => setShowPause(false)}>
+        <GameDialog image="pause" title="Пауза" subtitle={`${difficultyInfo[level.difficulty].title}・Уровень ${level.number}`}>
+          <button className="toy-button toy-button-theme dialog-button" type="button" onClick={() => setShowPause(false)}>
             Продолжить
           </button>
-          <button className="sheet-secondary destructive" type="button" onClick={game.restart}>
-            <RotateCcw size={18} />
-            Начать заново
-          </button>
           <button
-            className="sheet-secondary"
+            className="toy-button toy-button-neutral dialog-button"
             type="button"
             onClick={() => {
               setShowPause(false)
-              navigate('/')
-            }}
-          >
-            Сохранить и выйти
-          </button>
-        </ModalSheet>
-      ) : null}
-
-      {game.isComplete ? (
-        <ModalSheet>
-          <Trophy className="sheet-icon yellow" size={72} fill="currentColor" />
-          <h2>Уровень пройден!</h2>
-          <p>
-            {difficultyInfo[level.difficulty].title} · Уровень {level.number}
-          </p>
-          <div className="result-box">
-            <span>Время <strong>{game.formattedTime}</strong></span>
-            <span>Ошибки <strong>{game.mistakes}</strong></span>
-            <span>Подсказки <strong>{game.hintsUsed}</strong></span>
-          </div>
-          <button className="sheet-primary" type="button" onClick={() => navigate('/')}>
-            Готово
-          </button>
-        </ModalSheet>
-      ) : null}
-
-      {game.isFailed ? (
-        <ModalSheet>
-          <XCircle className="sheet-icon red" size={64} />
-          <h2>Игра окончена</h2>
-          <p>Вы достигли лимита ошибок для этой сложности.</p>
-          <button
-            className="sheet-primary"
-            type="button"
-            onClick={() => {
               game.restart()
             }}
           >
             Начать заново
           </button>
-          <button className="sheet-secondary" type="button" onClick={() => navigate('/')}>
+        </GameDialog>
+      ) : null}
+
+      {game.isComplete ? (
+        <GameDialog image="completed" title="Уровень пройден!" subtitle={`${difficultyInfo[level.difficulty].title}・Уровень ${level.number}`}>
+          <div className="result-lines">
+            <span>
+              <em>Время</em>
+              <i />
+              <strong>{game.formattedTime}</strong>
+            </span>
+            <span>
+              <em>Ошибки</em>
+              <i />
+              <strong>{game.mistakes}</strong>
+            </span>
+          </div>
+          <button className="toy-button toy-button-theme dialog-button" type="button" onClick={() => navigate('/')}>
             Выйти
           </button>
-        </ModalSheet>
+        </GameDialog>
+      ) : null}
+
+      {game.isFailed ? (
+        <GameDialog image="failed" title="Игра окончена" subtitle="Ошибки закончились :(">
+          <button className="toy-button toy-button-theme dialog-button" type="button" onClick={game.restart}>
+            Начать заново
+          </button>
+          <button className="toy-button toy-button-neutral dialog-button" type="button" onClick={() => navigate('/')}>
+            Выйти
+          </button>
+        </GameDialog>
       ) : null}
     </section>
   )
@@ -142,7 +147,7 @@ export default function GameScreen({ catalog }: { catalog: LevelCatalog }) {
 
 interface ToolButtonProps {
   title: string
-  icon: typeof Undo2
+  icon: LucideIcon
   selected?: boolean
   disabled?: boolean
   onClick: () => void
@@ -151,8 +156,30 @@ interface ToolButtonProps {
 function ToolButton({ title, icon: Icon, selected = false, disabled = false, onClick }: ToolButtonProps) {
   return (
     <button className={selected ? 'tool-button is-selected' : 'tool-button'} type="button" disabled={disabled} onClick={onClick}>
-      <Icon size={21} strokeWidth={2.3} />
+      <Icon size={28} strokeWidth={2.7} />
       <span>{title}</span>
     </button>
+  )
+}
+
+interface GameDialogProps {
+  image: 'pause' | 'completed' | 'failed'
+  title: string
+  subtitle: string
+  children: ReactNode
+}
+
+function GameDialog({ image, title, subtitle, children }: GameDialogProps) {
+  return (
+    <div className="game-dialog-backdrop" role="presentation">
+      <section className="game-dialog" role="dialog" aria-modal="true" aria-labelledby="game-dialog-title">
+        <img className="game-dialog-image" src={publicAsset(`assets/modal/${image}.png`)} alt="" aria-hidden="true" />
+        <div className="game-dialog-copy">
+          <h2 id="game-dialog-title">{title}</h2>
+          <p>{subtitle}</p>
+        </div>
+        {children}
+      </section>
+    </div>
   )
 }

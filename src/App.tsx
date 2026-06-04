@@ -1,13 +1,10 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { ProgressProvider } from './game/progress'
 import { loadLevelCatalog, type LevelCatalog } from './game/levels'
 import HomeScreen from './screens/HomeScreen'
-import DifficultyScreen from './screens/DifficultyScreen'
 import LevelSelectionScreen from './screens/LevelSelectionScreen'
 import GameScreen from './screens/GameScreen'
-import StatsScreen from './screens/StatsScreen'
-import SettingsScreen from './screens/SettingsScreen'
 
 function App() {
   const [catalog, setCatalog] = useState<LevelCatalog | null>(null)
@@ -30,8 +27,6 @@ function App() {
       cancelled = true
     }
   }, [])
-
-  const totalLevels = useMemo(() => catalog?.all.length ?? 0, [catalog])
 
   if (error) {
     return (
@@ -56,15 +51,13 @@ function App() {
       <HashRouter>
         <main className="app-shell">
           <Routes>
-            <Route index element={<HomeScreen catalog={catalog} totalLevels={totalLevels} />} />
-            <Route path="new" element={<DifficultyScreen catalog={catalog} />} />
+            <Route index element={<HomeScreen />} />
+            <Route path="new" element={<Navigate to="/levels/easy" replace />} />
             <Route
               path="levels/:difficulty"
               element={<LevelSelectionScreen catalog={catalog} />}
             />
             <Route path="game/:difficulty/:number" element={<GameScreen catalog={catalog} />} />
-            <Route path="stats" element={<StatsScreen catalog={catalog} totalLevels={totalLevels} />} />
-            <Route path="settings" element={<SettingsScreen totalLevels={totalLevels} />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
