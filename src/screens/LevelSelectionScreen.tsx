@@ -1,5 +1,6 @@
-import { ChevronLeft, ChevronRight, Lock } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Link, Navigate, useParams } from 'react-router-dom'
+import FlowerIcon from '../components/FlowerIcon'
 import { publicAsset } from '../game/assets'
 import { countLevels, type LevelCatalog } from '../game/levels'
 import { useProgress } from '../game/progress'
@@ -30,7 +31,7 @@ export default function LevelSelectionScreen({ catalog }: { catalog: LevelCatalo
         <div className="difficulty-title-card">
           <strong>{difficultyInfo[difficulty].title}</strong>
           <span>
-            <img src={publicAsset('assets/ui/flower.png')} alt="" aria-hidden="true" />
+            <FlowerIcon className="difficulty-progress-flower" variant="progress" />
             Пройдено {completed} из {total}
           </span>
         </div>
@@ -56,13 +57,9 @@ export default function LevelSelectionScreen({ catalog }: { catalog: LevelCatalo
             <>
               <strong>{level.number}</strong>
               {isCompleted ? (
-                <img className="level-completed-flower" src={publicAsset('assets/ui/flower.png')} alt="" aria-hidden="true" />
+                <FlowerIcon className="level-completed-flower" variant="completed" />
               ) : null}
-              {!unlocked ? (
-                <span className="level-lock" aria-hidden="true">
-                  <Lock size={17} strokeWidth={3.4} />
-                </span>
-              ) : null}
+              {!unlocked ? <img className="level-lock" src={publicAsset('assets/ui/lock.svg')} alt="" aria-hidden="true" /> : null}
             </>
           )
 
