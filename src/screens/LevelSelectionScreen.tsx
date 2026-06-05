@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import FlowerIcon from '../components/FlowerIcon'
+import ScreenHeader from '../components/ScreenHeader'
 import { publicAsset } from '../game/assets'
 import { countLevels, type LevelCatalog } from '../game/levels'
 import { useProgress } from '../game/progress'
@@ -23,23 +24,25 @@ export default function LevelSelectionScreen({ catalog }: { catalog: LevelCatalo
     <section className={`level-select-screen theme-${difficulty}`}>
       <div className="level-select-bg" aria-hidden="true" />
 
-      <header className="difficulty-switcher">
-        <Link className="round-theme-button difficulty-arrow-button" to={`/levels/${previousDifficulty}`} aria-label="Предыдущая сложность">
-          <ChevronLeft size={31} strokeWidth={4} />
-        </Link>
-
-        <div className="difficulty-title-card">
-          <strong>{difficultyInfo[difficulty].title}</strong>
-          <span>
+      <ScreenHeader
+        leftAction={{
+          icon: <ChevronLeft size={31} strokeWidth={4} />,
+          label: 'Предыдущая сложность',
+          to: `/levels/${previousDifficulty}`,
+        }}
+        rightAction={{
+          icon: <ChevronRight size={31} strokeWidth={4} />,
+          label: 'Следующая сложность',
+          to: `/levels/${nextDifficulty}`,
+        }}
+        title={difficultyInfo[difficulty].title}
+        subtitle={
+          <>
             <FlowerIcon className="difficulty-progress-flower" variant="progress" />
             Пройдено {completed} из {total}
-          </span>
-        </div>
-
-        <Link className="round-theme-button difficulty-arrow-button" to={`/levels/${nextDifficulty}`} aria-label="Следующая сложность">
-          <ChevronRight size={31} strokeWidth={4} />
-        </Link>
-      </header>
+          </>
+        }
+      />
 
       <div className="level-choice-grid" aria-label={`Уровни: ${difficultyInfo[difficulty].title}`}>
         {levels.map((level) => {

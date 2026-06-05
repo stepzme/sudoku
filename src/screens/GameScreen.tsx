@@ -10,6 +10,7 @@ import {
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import NumberPad from '../components/NumberPad'
+import ScreenHeader from '../components/ScreenHeader'
 import SudokuBoard from '../components/SudokuBoard'
 import { publicAsset } from '../game/assets'
 import { findLevel, type LevelCatalog } from '../game/levels'
@@ -44,32 +45,26 @@ export default function GameScreen({ catalog }: { catalog: LevelCatalog }) {
 
   return (
     <section className={`game-screen theme-${level.difficulty}`}>
-      <header className="game-header">
-        <button
-          className="round-theme-button game-close-button"
-          type="button"
-          onClick={() => navigate(`/levels/${level.difficulty}`)}
-          aria-label="Закрыть"
-        >
-          <X size={31} strokeWidth={4} />
-        </button>
-
-        <div className="game-title-card">
-          <h1>Уровень {level.number}</h1>
-          <p>
-            {difficultyInfo[level.difficulty].title}・{game.formattedTime}
-          </p>
-        </div>
-
-        <button className="round-theme-button game-pause-button" type="button" onClick={() => setShowPause(true)} aria-label="Пауза">
-          <Pause size={27} fill="currentColor" strokeWidth={4} />
-        </button>
-
-        <div className="game-status-row">
-          <span>Ошибки・{game.mistakes}/{game.mistakeLimit}</span>
-          <span>Подсказки・{game.remainingHints}/{hintLimit}</span>
-        </div>
-      </header>
+      <ScreenHeader
+        leftAction={{
+          icon: <X size={31} strokeWidth={4} />,
+          label: 'Закрыть',
+          onClick: () => navigate(`/levels/${level.difficulty}`),
+        }}
+        rightAction={{
+          icon: <Pause size={27} fill="currentColor" strokeWidth={4} />,
+          label: 'Пауза',
+          onClick: () => setShowPause(true),
+        }}
+        title={`Уровень ${level.number}`}
+        subtitle={`${difficultyInfo[level.difficulty].title}・${game.formattedTime}`}
+        status={
+          <>
+            <span>Ошибки・{game.mistakes}/{game.mistakeLimit}</span>
+            <span>Подсказки・{game.remainingHints}/{hintLimit}</span>
+          </>
+        }
+      />
 
       <SudokuBoard game={game} />
 

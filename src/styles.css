@@ -8,6 +8,12 @@
   --app-width: 402px;
   --text-outline: #264f7f;
   --grid-line: rgba(48, 73, 93, 0.13);
+  --screen-header-action-top: 21px;
+  --screen-header-card-gap: 10px;
+  --screen-header-card-height: clamp(88px, 12dvh, 105px);
+  --screen-header-card-padding: 20px 32px;
+  --screen-header-side-offset: 0px;
+  --screen-header-title-size: clamp(23px, 6vw, 24px);
 }
 
 * {
@@ -137,8 +143,7 @@ button {
 
 .toy-button,
 .round-theme-button,
-.difficulty-title-card,
-.game-title-card,
+.screen-title-card,
 .tool-button,
 .continue-game-card {
   -webkit-text-stroke: 4px var(--text-outline);
@@ -353,12 +358,12 @@ button {
   pointer-events: none;
 }
 
-.difficulty-switcher {
+.screen-header {
   position: relative;
   z-index: 1;
 }
 
-.difficulty-title-card {
+.screen-title-card {
   --text-outline: var(--theme-shadow);
 
   position: absolute;
@@ -366,12 +371,12 @@ button {
   left: 50%;
   z-index: 1;
   display: grid;
-  width: min(76.6%, 308px);
-  min-height: clamp(88px, 12dvh, 105px);
+  width: min(76.6vw, 308px);
+  height: var(--screen-header-card-height);
   align-content: center;
   justify-items: center;
-  gap: 10px;
-  padding: 20px 32px;
+  gap: var(--screen-header-card-gap);
+  padding: var(--screen-header-card-padding);
   color: #fff;
   background: linear-gradient(180deg, var(--theme-top), var(--theme-bottom));
   border: 4px solid var(--theme-border);
@@ -382,15 +387,17 @@ button {
   transform: translateX(-50%);
 }
 
-.difficulty-title-card strong {
-  font-size: clamp(23px, 6vw, 24px);
+.screen-title-card h1 {
+  margin: 0;
+  font-size: var(--screen-header-title-size);
   line-height: 1;
 }
 
-.difficulty-title-card span {
+.screen-title-card p {
+  margin: 0;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--screen-header-subtitle-gap, 8px);
   font-size: 12px;
   line-height: 1;
   white-space: nowrap;
@@ -404,18 +411,18 @@ button {
   margin: -2.4px;
 }
 
-.difficulty-arrow-button {
+.screen-header-action {
   position: absolute;
-  top: 21px;
+  top: var(--screen-header-action-top);
   z-index: 2;
 }
 
-.difficulty-arrow-button:first-child {
-  left: 0;
+.screen-header-action.is-left {
+  left: var(--screen-header-side-offset);
 }
 
-.difficulty-arrow-button:last-child {
-  right: 0;
+.screen-header-action.is-right {
+  right: var(--screen-header-side-offset);
 }
 
 .level-choice-grid {
@@ -495,6 +502,7 @@ button {
   --game-header-height: clamp(104px, 13.84dvh, 121px);
   --game-tools-height: clamp(62px, 9.6dvh, 84px);
   --game-pad-height: clamp(144px, 21.4dvh, 187px);
+  --screen-header-side-offset: 16px;
   --board-size: min(
     100vw,
     var(--app-width),
@@ -515,62 +523,7 @@ button {
   background: var(--screen-bg);
 }
 
-.game-header {
-  position: relative;
-}
-
-.game-title-card {
-  --text-outline: var(--theme-shadow);
-
-  position: absolute;
-  top: 0;
-  left: 50%;
-  z-index: 1;
-  display: grid;
-  width: min(76.6%, 308px);
-  height: clamp(74px, 10.2dvh, 89px);
-  align-content: center;
-  justify-items: center;
-  gap: 8px;
-  color: #fff;
-  background: linear-gradient(180deg, var(--theme-top), var(--theme-bottom));
-  border: 4px solid var(--theme-border);
-  border-radius: 21px;
-  box-shadow:
-    inset 0 8px 0 var(--theme-highlight),
-    inset 0 22px 0 var(--theme-shine);
-  transform: translateX(-50%);
-}
-
-.game-title-card h1 {
-  margin: 0;
-  font-size: clamp(25px, 6.7vw, 28px);
-  line-height: 1;
-}
-
-.game-title-card p {
-  margin: 0;
-  font-size: 12px;
-  line-height: 1;
-  -webkit-text-stroke-width: 3px;
-}
-
-.game-close-button,
-.game-pause-button {
-  position: absolute;
-  top: clamp(13px, 3.3dvh, 29px);
-  z-index: 2;
-}
-
-.game-close-button {
-  left: 16px;
-}
-
-.game-pause-button {
-  right: 16px;
-}
-
-.game-status-row {
+.screen-header-status {
   --text-outline: var(--theme-shadow);
 
   position: absolute;
