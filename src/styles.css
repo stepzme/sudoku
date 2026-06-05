@@ -426,10 +426,10 @@ button {
 }
 
 .screen-header-icon {
-  --icon-outline: var(--theme-shadow);
-
   display: block;
   overflow: visible;
+  pointer-events: none;
+  user-select: none;
 }
 
 .screen-header-icon.is-chevron {
@@ -671,7 +671,6 @@ button {
 
 .tool-button {
   --text-outline: var(--theme-shadow);
-  --icon-outline: var(--theme-shadow);
 
   display: grid;
   min-width: 0;
@@ -694,6 +693,8 @@ button {
 .tool-icon {
   display: block;
   overflow: visible;
+  pointer-events: none;
+  user-select: none;
 }
 
 .tool-icon.is-undo {

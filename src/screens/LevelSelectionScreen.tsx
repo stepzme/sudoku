@@ -26,12 +26,12 @@ export default function LevelSelectionScreen({ catalog }: { catalog: LevelCatalo
 
       <ScreenHeader
         leftAction={{
-          icon: <FigmaIcon className="screen-header-icon is-chevron" name="chevron-left" />,
+          icon: <FigmaIcon className="screen-header-icon is-chevron" name="chevron-left" theme={difficulty} />,
           label: 'Предыдущая сложность',
           to: `/levels/${previousDifficulty}`,
         }}
         rightAction={{
-          icon: <FigmaIcon className="screen-header-icon is-chevron" name="chevron-right" />,
+          icon: <FigmaIcon className="screen-header-icon is-chevron" name="chevron-right" theme={difficulty} />,
           label: 'Следующая сложность',
           to: `/levels/${nextDifficulty}`,
         }}

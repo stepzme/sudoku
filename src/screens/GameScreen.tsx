@@ -39,12 +39,12 @@ export default function GameScreen({ catalog }: { catalog: LevelCatalog }) {
     <section className={`game-screen theme-${level.difficulty}`}>
       <ScreenHeader
         leftAction={{
-          icon: <FigmaIcon className="screen-header-icon is-close" name="close" />,
+          icon: <FigmaIcon className="screen-header-icon is-close" name="close" theme={level.difficulty} />,
           label: 'Закрыть',
           onClick: () => navigate(`/levels/${level.difficulty}`),
         }}
         rightAction={{
-          icon: <FigmaIcon className="screen-header-icon is-pause" name="pause" />,
+          icon: <FigmaIcon className="screen-header-icon is-pause" name="pause" theme={level.difficulty} />,
           label: 'Пауза',
           onClick: () => setShowPause(true),
         }}
@@ -61,10 +61,10 @@ export default function GameScreen({ catalog }: { catalog: LevelCatalog }) {
       <SudokuBoard game={game} />
 
       <div className="tool-row">
-        <ToolButton title="Отмена" icon={<FigmaIcon className="tool-icon is-undo" name="undo" />} disabled={!game.canUndo} onClick={game.undo} />
-        <ToolButton title="Стереть" icon={<FigmaIcon className="tool-icon is-erase" name="erase" />} disabled={!game.canErase} onClick={game.erase} />
-        <ToolButton title="Заметки" icon={<FigmaIcon className="tool-icon is-notes" name="notes" />} selected={game.notesMode} onClick={game.toggleNotes} />
-        <ToolButton title="Подсказка" icon={<FigmaIcon className="tool-icon is-hint" name="hint" />} disabled={!game.canUseHint} onClick={game.useHint} />
+        <ToolButton title="Отмена" icon={<FigmaIcon className="tool-icon is-undo" name="undo" theme={level.difficulty} />} disabled={!game.canUndo} onClick={game.undo} />
+        <ToolButton title="Стереть" icon={<FigmaIcon className="tool-icon is-erase" name="erase" theme={level.difficulty} />} disabled={!game.canErase} onClick={game.erase} />
+        <ToolButton title="Заметки" icon={<FigmaIcon className="tool-icon is-notes" name="notes" theme={level.difficulty} />} selected={game.notesMode} onClick={game.toggleNotes} />
+        <ToolButton title="Подсказка" icon={<FigmaIcon className="tool-icon is-hint" name="hint" theme={level.difficulty} />} disabled={!game.canUseHint} onClick={game.useHint} />
       </div>
 
       <NumberPad
