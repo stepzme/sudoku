@@ -1,5 +1,5 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Link, Navigate, useParams } from 'react-router-dom'
+import FigmaIcon from '../components/FigmaIcon'
 import FlowerIcon from '../components/FlowerIcon'
 import ScreenHeader from '../components/ScreenHeader'
 import { publicAsset } from '../game/assets'
@@ -26,12 +26,12 @@ export default function LevelSelectionScreen({ catalog }: { catalog: LevelCatalo
 
       <ScreenHeader
         leftAction={{
-          icon: <ChevronLeft size={31} strokeWidth={4} />,
+          icon: <FigmaIcon className="screen-header-icon is-chevron" name="chevron-left" />,
           label: 'Предыдущая сложность',
           to: `/levels/${previousDifficulty}`,
         }}
         rightAction={{
-          icon: <ChevronRight size={31} strokeWidth={4} />,
+          icon: <FigmaIcon className="screen-header-icon is-chevron" name="chevron-right" />,
           label: 'Следующая сложность',
           to: `/levels/${nextDifficulty}`,
         }}

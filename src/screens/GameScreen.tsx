@@ -1,14 +1,6 @@
-import {
-  Eraser,
-  Lightbulb,
-  Pause,
-  Pencil,
-  Undo2,
-  X,
-  type LucideIcon,
-} from 'lucide-react'
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import FigmaIcon from '../components/FigmaIcon'
 import NumberPad from '../components/NumberPad'
 import ScreenHeader from '../components/ScreenHeader'
 import SudokuBoard from '../components/SudokuBoard'
@@ -47,12 +39,12 @@ export default function GameScreen({ catalog }: { catalog: LevelCatalog }) {
     <section className={`game-screen theme-${level.difficulty}`}>
       <ScreenHeader
         leftAction={{
-          icon: <X size={31} strokeWidth={4} />,
+          icon: <FigmaIcon className="screen-header-icon is-close" name="close" />,
           label: 'Закрыть',
           onClick: () => navigate(`/levels/${level.difficulty}`),
         }}
         rightAction={{
-          icon: <Pause size={27} fill="currentColor" strokeWidth={4} />,
+          icon: <FigmaIcon className="screen-header-icon is-pause" name="pause" />,
           label: 'Пауза',
           onClick: () => setShowPause(true),
         }}
@@ -69,10 +61,10 @@ export default function GameScreen({ catalog }: { catalog: LevelCatalog }) {
       <SudokuBoard game={game} />
 
       <div className="tool-row">
-        <ToolButton title="Отмена" icon={Undo2} disabled={!game.canUndo} onClick={game.undo} />
-        <ToolButton title="Стереть" icon={Eraser} disabled={!game.canErase} onClick={game.erase} />
-        <ToolButton title="Заметки" icon={Pencil} selected={game.notesMode} onClick={game.toggleNotes} />
-        <ToolButton title="Подсказка" icon={Lightbulb} disabled={!game.canUseHint} onClick={game.useHint} />
+        <ToolButton title="Отмена" icon={<FigmaIcon className="tool-icon is-undo" name="undo" />} disabled={!game.canUndo} onClick={game.undo} />
+        <ToolButton title="Стереть" icon={<FigmaIcon className="tool-icon is-erase" name="erase" />} disabled={!game.canErase} onClick={game.erase} />
+        <ToolButton title="Заметки" icon={<FigmaIcon className="tool-icon is-notes" name="notes" />} selected={game.notesMode} onClick={game.toggleNotes} />
+        <ToolButton title="Подсказка" icon={<FigmaIcon className="tool-icon is-hint" name="hint" />} disabled={!game.canUseHint} onClick={game.useHint} />
       </div>
 
       <NumberPad
@@ -142,16 +134,16 @@ export default function GameScreen({ catalog }: { catalog: LevelCatalog }) {
 
 interface ToolButtonProps {
   title: string
-  icon: LucideIcon
+  icon: ReactNode
   selected?: boolean
   disabled?: boolean
   onClick: () => void
 }
 
-function ToolButton({ title, icon: Icon, selected = false, disabled = false, onClick }: ToolButtonProps) {
+function ToolButton({ title, icon, selected = false, disabled = false, onClick }: ToolButtonProps) {
   return (
     <button className={selected ? 'tool-button is-selected' : 'tool-button'} type="button" disabled={disabled} onClick={onClick}>
-      <Icon size={28} strokeWidth={2.7} />
+      {icon}
       <span>{title}</span>
     </button>
   )
